@@ -90,7 +90,7 @@ version is published at the same address.
 
 ## Contact
 
-Questions about this policy: **admin@algoanalytica.com**
+Questions about this policy: **saadsiddiqui468.1@gmail.com**
 
 PreSelect is not affiliated with, endorsed by, or sponsored by Google LLC.
 Google, Gmail, Google Drive, Google Docs and Google Forms are trademarks of
