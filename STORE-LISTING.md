@@ -32,7 +32,7 @@ Account Switcher for Google – PreSelect
 ## Summary (132 max, plain text, shown under the name in search results)
 
 ```
-Choose which Google account opens a link, before it opens. For Gmail, Drive, Docs, Sheets and Forms. Free while in beta.
+Asks which Google account to use before a Google link opens, then routes it to that account. Free while in beta.
 ```
 
 ## Detailed description
@@ -41,7 +41,7 @@ The first two lines are what show before "Read more", and what a language model
 will quote when asked what this is. They are deliberately plain and factual.
 
 ```
-PreSelect asks which Google account to use before a Google link opens, then opens it under the account you pick. It works with Gmail, Drive, Docs, Sheets, Slides, Forms, Calendar, Meet and the Cloud console.
+PreSelect asks which Google account to use before a Google link opens, then opens it under the account you pick. You decide which Google services it covers, and it leaves every other site alone.
 
 If you use multiple Google accounts in one browser, every link lands on whichever one Google treats as primary. You notice on the wrong page, switch through the profile menu, and load it a second time. PreSelect moves that decision to the front.
 
@@ -59,7 +59,7 @@ FEATURES
 • Choose once per app or once per document, whichever suits how you work
 • "Always use this account for this site" for the sites where the answer never changes
 • Per-service switches for 30+ Google surfaces, so it only steps in where you want
-• Google Search, YouTube and Maps are off by default
+• Public browsing surfaces stay off until you switch them on
 • Keyboard driven: number keys select, arrows move, Escape backs out
 • Light and dark, following your browser
 
