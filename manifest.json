@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Google Account Switcher – PreSelect",
+  "version": "1.0.0",
+  "description": "Asks which Google account to use before a Google link opens, then routes it to that account. Free while in beta.",
+  "minimum_chrome_version": "116",
+
+  "permissions": ["storage", "tabs", "webNavigation", "declarativeNetRequestWithHostAccess"],
+  "host_permissions": ["https://accounts.google.com/*"],
+
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+
+  "action": {
+    "default_title": "PreSelect",
+    "default_popup": "src/ui/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "32": "assets/icons/icon-32.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+
+  "options_page": "src/ui/options/options.html",
+
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  }
+}

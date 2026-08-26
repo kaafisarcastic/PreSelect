@@ -1,0 +1,38 @@
+<!--
+  PreSelect mark. Source of truth for the shape; the PNG icons in assets/icons
+  are generated from the same geometry by tools/generate-icons.py.
+
+  Two account rings, one behind the other, with a chevron in the front one. The
+  chevron is the "open this and choose" affordance every account menu uses; the
+  second ring says there is more than one to choose from.
+
+  Deliberately not a Google G: imitating Google's own mark implies an affiliation
+  that does not exist, and at toolbar size it collapses into a plain G that says
+  nothing about choosing anyway.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="PreSelect">
+  <mask id="behind">
+    <rect width="128" height="128" fill="#fff" />
+    <!-- Clearance around the front ring, so the two shapes stay distinct. -->
+    <circle cx="76.8" cy="64" r="51.84" fill="#000" />
+  </mask>
+
+  <circle
+    cx="37.12"
+    cy="64"
+    r="32.64"
+    fill="none"
+    stroke="#8e9bb8"
+    stroke-width="10.24"
+    mask="url(#behind)" />
+
+  <circle cx="76.8" cy="64" r="38.4" fill="none" stroke="#3b63e0" stroke-width="12.16" />
+
+  <path
+    d="M63.36 58.24 76.8 73.6 90.24 58.24"
+    fill="none"
+    stroke="#3b63e0"
+    stroke-width="12.16"
+    stroke-linecap="round"
+    stroke-linejoin="round" />
+</svg>

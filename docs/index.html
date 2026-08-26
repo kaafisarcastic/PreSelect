@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — PreSelect</title>
+    <meta
+      name="description"
+      content="Privacy policy for PreSelect, the browser extension that asks which Google account should open a Google link." />
+    <link rel="icon" href="icon-128.png" />
+    <style>
+      /* Self-contained on purpose: GitHub Pages serves this file as-is, with no
+         build step and no external requests. Palette matches the extension. */
+      :root {
+        color-scheme: light dark;
+        --bg: #f6f7f9;
+        --surface: #ffffff;
+        --border: #dfe3e9;
+        --text: #16191d;
+        --text-muted: #626b78;
+        --accent: #3b63e0;
+        --code-bg: #f0f2f5;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14171b;
+          --surface: #1b1f24;
+          --border: #2d333b;
+          --text: #e9ecf0;
+          --text-muted: #9aa3ae;
+          --accent: #7c9cff;
+          --code-bg: #23282e;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 56px 20px 96px;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      main { max-width: 720px; margin: 0 auto; }
+      header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+      header img { width: 40px; height: 40px; }
+      h1 { margin: 0; font-size: 27px; letter-spacing: -0.02em; }
+      .updated { margin: 0 0 40px; color: var(--text-muted); font-size: 14px; }
+      h2 {
+        margin: 40px 0 12px;
+        font-size: 17px;
+        letter-spacing: -0.01em;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      p, li { color: var(--text); }
+      ul { padding-left: 22px; }
+      li { margin-bottom: 8px; }
+      code {
+        background: var(--code-bg);
+        padding: 1px 5px;
+        border-radius: 4px;
+        font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 15px;
+      }
+      th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+      tr:last-child td { border-bottom: none; }
+      th { font-weight: 600; font-size: 13px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--text-muted); }
+      .wrap { overflow-x: auto; }
+      footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 14px; }
+      a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="icon-128.png" alt="" />
+        <h1>Privacy Policy — PreSelect</h1>
+      </header>
+      <p class="updated">Last updated: 26 August 2026</p>
+
+      <p>
+        PreSelect is a browser extension that asks which Google account should open a Google link,
+        then opens it under the account you pick.
+      </p>
+      <p>
+        This policy describes every piece of data the extension touches. It is short because the
+        extension does very little with data, by design.
+      </p>
+
+      <h2>The short version</h2>
+      <ul>
+        <li>There is no PreSelect server. No data is sent to us, because there is nowhere to send it.</li>
+        <li>There is no analytics, telemetry, tracking, advertising or profiling.</li>
+        <li>Nothing is sold, shared or disclosed to anyone.</li>
+        <li>
+          The extension never sees your password, your cookies or your session tokens, and cannot
+          sign you in or out of anything.
+        </li>
+      </ul>
+
+      <h2>What is stored</h2>
+      <p>Stored locally by the browser, in extension storage:</p>
+      <div class="wrap">
+        <table>
+          <tr><th>Data</th><th>Why</th></tr>
+          <tr><td>Google account e-mail addresses</td><td>To list your accounts and to build the link that opens under the right one</td></tr>
+          <tr><td>Labels you give those accounts</td><td>So the list is readable</td></tr>
+          <tr><td>Google session index (<code>u/0</code>, <code>u/1</code>, …)</td><td>To address an account faster when it is known</td></tr>
+          <tr><td>Which Google services you switched on</td><td>Your settings</td></tr>
+          <tr><td>Per-site rules you create</td><td>So a site you settled stops asking</td></tr>
+        </table>
+      </div>
+      <p>
+        These are kept in Chrome's <code>storage.sync</code> area. If you have Chrome Sync turned on,
+        Chrome replicates them across your signed-in Chrome profile in the same way it syncs
+        bookmarks. That transfer is between you and Google; PreSelect neither performs nor receives
+        it.
+      </p>
+
+      <h2>What is not stored</h2>
+      <p>
+        Page content, form data, keystrokes, cookies, passwords and authentication tokens are never
+        read or stored. The extension has no content scripts and cannot see the contents of the
+        pages you visit.
+      </p>
+
+      <h2>What is inspected, and what is kept from it</h2>
+      <p>
+        To decide whether to ask, the extension looks at the address of each page you navigate to.
+        That inspection happens in memory, no browsing history is compiled, and nothing is
+        transmitted. Two things derived from it are retained:
+      </p>
+      <ul>
+        <li>The hostname of any site you create a rule for. That is a setting you chose.</li>
+        <li>
+          For the current browser session only, which account each tab settled on for a site, so the
+          same question is not repeated as you move around that site. This is held in
+          <code>storage.session</code> and the browser discards it when it closes.
+        </li>
+      </ul>
+
+      <h2>Network requests</h2>
+      <p>
+        PreSelect makes requests to exactly two addresses, both belonging to Google, both using the
+        browser session you already have:
+      </p>
+      <ul>
+        <li>
+          <code>POST https://accounts.google.com/ListAccounts</code> — asks Google which accounts
+          this browser is signed into. This is the same endpoint Google's own account switcher uses.
+        </li>
+        <li>
+          <code>GET https://accounts.google.com/SignOutOptions</code> — a fallback used only if the
+          first request fails, to read the same list from an ordinary Google page.
+        </li>
+      </ul>
+      <p>
+        No other host is contacted. Rewritten links are opened by your browser as normal navigation,
+        exactly as if you had clicked them yourself.
+      </p>
+
+      <h2>Permissions</h2>
+      <div class="wrap">
+        <table>
+          <tr><th>Permission</th><th>Used for</th></tr>
+          <tr><td><code>storage</code></td><td>Saving your accounts and settings</td></tr>
+          <tr><td><code>tabs</code></td><td>Sending a tab to the account you chose, and going back if you cancel</td></tr>
+          <tr><td><code>webNavigation</code></td><td>Noticing a Google page is about to open, so the question can be asked first</td></tr>
+          <tr><td><code>declarativeNetRequestWithHostAccess</code></td><td>Correcting one header on the account-list request above, which Google rejects otherwise</td></tr>
+          <tr><td><code>https://accounts.google.com/*</code></td><td>The two requests listed above</td></tr>
+        </table>
+      </div>
+      <p>
+        There is no permission to read page content, and the extension contains no content scripts.
+        It cannot see the pages you visit.
+      </p>
+
+      <h2>Children</h2>
+      <p>PreSelect is a productivity tool for browser users and is not directed at children.</p>
+
+      <h2>Changes</h2>
+      <p>
+        If this policy changes, the date at the top changes with it, and the revised version is
+        published at the same address.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:admin@algoanalytica.com">admin@algoanalytica.com</a></p>
+
+      <footer>
+        PreSelect is not affiliated with, endorsed by, or sponsored by Google LLC. Google, Gmail,
+        Google Drive, Google Docs and Google Forms are trademarks of Google LLC.
+      </footer>
+    </main>
+  </body>
+</html>

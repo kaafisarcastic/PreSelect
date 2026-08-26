@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PreSelect settings</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__header">
+        <img src="../../../assets/icons/icon-48.png" alt="" width="32" height="32" />
+        <div>
+          <h1>PreSelect <span class="badge">Beta</span></h1>
+          <p class="muted">Choose which Google account opens a link, before it opens.</p>
+          <p class="faint page__beta">
+            Free while in beta. Some of it may need a paid licence later; anyone using it before
+            then keeps what they have.
+          </p>
+        </div>
+      </header>
+
+      <!-- Accounts -->
+      <section class="card section">
+        <div class="section__head">
+          <div>
+            <h2>Accounts</h2>
+            <p class="muted section__sub">
+              Signed-in accounts are detected from your browser. Add the ones you are signed out
+              of by hand so they show up in the chooser too.
+            </p>
+          </div>
+          <button class="button" id="refresh-accounts" type="button">Refresh from Google</button>
+        </div>
+
+        <div id="account-list" class="rows"></div>
+        <p class="muted empty" id="account-empty" hidden>No accounts yet.</p>
+
+        <form class="add-row" id="add-account">
+          <input class="input" id="new-email" type="email" placeholder="name@example.com" required autocomplete="off" />
+          <input class="input" id="new-label" type="text" placeholder="Label (optional)" autocomplete="off" />
+          <button class="button button--primary" type="submit">Add</button>
+        </form>
+        <p class="status" id="account-status" role="status"></p>
+      </section>
+
+      <!-- Default behaviour -->
+      <section class="card section">
+        <h2>When a Google link opens</h2>
+        <div class="field">
+          <label class="field__label" for="default-account">Account to use</label>
+          <select class="select" id="default-account"></select>
+          <p class="faint field__hint">
+            Pick an account to skip the prompt entirely and always use that one. Per-site rules
+            below still take priority.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="tab-scope">How often to ask</label>
+          <select class="select" id="tab-scope">
+            <option value="app">Once per app</option>
+            <option value="document">Once per document</option>
+          </select>
+          <!-- Filled in from the current selection, so it always describes the
+               option in force rather than the setting in the abstract. -->
+          <p class="muted field__hint" id="tab-scope-hint"></p>
+          <p class="faint field__hint">
+            Either way, a tab forgets its answers once you close it. To settle a site for good,
+            tick "Always use this account for..." when you are asked. That covers the whole host,
+            every app on it, and appears under Site rules at the bottom of this page.
+          </p>
+        </div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" id="behavior-showSignedOutAccounts" />
+            <span>
+              Offer signed-out accounts
+              <span class="faint toggle__hint">
+                Choosing one hands you to Google's sign-in page, which then continues to the link.
+              </span>
+            </span>
+          </label>
+
+          <label class="toggle">
+            <input type="checkbox" id="behavior-skipWhenAccountPinned" />
+            <span>
+              Don't ask when the link names an account by e-mail
+              <span class="faint toggle__hint">
+                Links carrying authuser=name@example.com open straight away. A bare /u/0/ does
+                not count: that is Google's primary account, not a choice.
+              </span>
+            </span>
+          </label>
+
+          <label class="toggle">
+            <input type="checkbox" id="behavior-autoDiscover" />
+            <span>
+              Keep the signed-in list up to date automatically
+              <span class="faint toggle__hint">
+                Re-checks with Google at most every few minutes while you browse.
+              </span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Where to ask -->
+      <section class="card section">
+        <div class="section__head">
+          <div>
+            <h2>Where to ask</h2>
+            <p class="muted section__sub">Turn off anything you would rather open without a prompt.</p>
+          </div>
+          <div class="section__actions">
+            <button class="button" id="domains-all" type="button">Select all</button>
+            <button class="button" id="domains-none" type="button">Clear all</button>
+          </div>
+        </div>
+
+        <div id="domain-groups"></div>
+
+        <!--
+          Other hosts: hidden for now. The engine still honours state.customDomains,
+          so any host already added keeps working and nothing is lost; only the way
+          to add one from this page is withdrawn. Restore this block together with
+          the three marked sections in options.js.
+
+          <div class="field">
+            <label class="field__label" for="new-domain">Other hosts</label>
+            <form class="add-row" id="add-domain">
+              <input class="input" id="new-domain" type="text" placeholder="mail.mycompany.com or *.mycompany.com" autocomplete="off" />
+              <button class="button" type="submit">Add host</button>
+            </form>
+            <div id="custom-domains" class="chips"></div>
+          </div>
+        -->
+      </section>
+
+      <!-- Saved site rules -->
+      <section class="card section">
+        <h2>Site rules</h2>
+        <p class="muted section__sub">
+          Created by ticking "Always use this account for..." when you are asked. Each one covers a
+          whole host and never asks again, in any tab, after restarts. Remove one to be asked again.
+        </p>
+        <div id="rule-list" class="rows"></div>
+        <p class="muted empty" id="rule-empty" hidden>No site rules yet.</p>
+      </section>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

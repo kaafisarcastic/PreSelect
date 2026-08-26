@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Choose an account</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="chooser.css" />
+  </head>
+  <body class="chooser-body">
+    <main class="chooser card" aria-labelledby="chooser-title">
+      <header class="chooser__header">
+        <img class="chooser__mark" src="../../../assets/icons/icon-32.png" alt="" width="24" height="24" />
+        <div class="chooser__heading">
+          <h1 id="chooser-title">Open with which account?</h1>
+          <p class="chooser__target muted">
+            <span class="badge" id="target-label" hidden></span>
+            <span class="mono" id="target-url"></span>
+          </p>
+        </div>
+      </header>
+
+      <div class="chooser__list" id="account-list" role="listbox" aria-label="Google accounts"></div>
+
+      <p class="chooser__empty muted" id="empty-state" hidden>
+        No accounts configured yet. Open settings to add them.
+      </p>
+
+      <footer class="chooser__footer">
+        <label class="toggle chooser__remember">
+          <input type="checkbox" id="remember-site" />
+          <span>
+            Always use this account for <span class="mono" id="remember-host"></span>
+            <span class="chooser__hint faint">
+              Stops the question for that whole site, in every tab. Undo it under Site rules in settings.
+            </span>
+          </span>
+        </label>
+
+        <div class="chooser__actions">
+          <button class="button button--quiet" id="refresh" type="button">Refresh accounts</button>
+          <button class="button button--quiet" id="settings" type="button">Settings</button>
+          <button class="button" id="cancel" type="button">Cancel</button>
+        </div>
+      </footer>
+
+      <p class="chooser__status faint" id="status" role="status"></p>
+    </main>
+
+    <script type="module" src="chooser.js"></script>
+  </body>
+</html>

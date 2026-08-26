@@ -1,0 +1,233 @@
+/* Settings page: a single readable column of cards. */
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 20px 72px;
+}
+
+.page__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.page__header img {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.page__header .badge {
+  margin-left: 6px;
+  vertical-align: 2px;
+  font-weight: 500;
+}
+
+/* Sets the expectation that this is free for now, not free forever. */
+.page__beta {
+  margin-top: 6px;
+  font-size: 12px;
+  max-width: 58ch;
+}
+
+.section {
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.section__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.section__sub {
+  margin-top: 4px;
+  max-width: 46ch;
+  font-size: 13px;
+}
+
+.section__actions {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.section__actions .button {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------------- rows */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.row__title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 500;
+}
+
+.row__sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row__label-input {
+  width: 160px;
+  padding: 5px 8px;
+  font-size: 13px;
+}
+
+.row .button {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* ----------------------------------------------------------------- fields */
+
+.field {
+  margin-top: 16px;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.field__hint {
+  margin-top: 6px;
+  font-size: 12px;
+  max-width: 52ch;
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.add-row .input {
+  flex: 1;
+}
+
+.add-row #new-label {
+  max-width: 180px;
+}
+
+.toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.toggle__hint {
+  display: block;
+  font-size: 12px;
+  max-width: 56ch;
+}
+
+/* ---------------------------------------------------------------- domains */
+
+.group {
+  margin-top: 16px;
+}
+
+.group__title {
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.group__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px 18px;
+}
+
+.group__items .toggle {
+  font-size: 13px;
+  align-items: center;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  font-size: 12px;
+  font-family: var(--mono);
+}
+
+.chip button {
+  border: none;
+  background: none;
+  color: var(--text-faint);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.chip button:hover {
+  color: var(--danger);
+}
+
+.empty {
+  padding: 12px 2px;
+  font-size: 13px;
+}
+
+.status {
+  min-height: 18px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.status[data-tone="error"] {
+  color: var(--danger);
+}

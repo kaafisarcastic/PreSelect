@@ -1,0 +1,127 @@
+/* Toolbar popup: current page context plus a one-click account switch. */
+
+.popup {
+  width: 300px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.popup__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.popup__site {
+  min-width: 0;
+}
+
+.popup__site h1 {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup__site p {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup__watch {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.popup__section-title {
+  margin: 12px 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.popup__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popup__account {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.popup__account:hover,
+.popup__account:focus-visible {
+  background: var(--surface-alt);
+  outline: none;
+}
+
+.popup__account[aria-current="true"] {
+  background: var(--accent-soft);
+}
+
+.popup__account .avatar {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.popup__account-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.popup__account-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup__account-email {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup__note {
+  margin: 10px 2px 0;
+  font-size: 12px;
+}
+
+.popup__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.popup__footer .button {
+  padding: 5px 10px;
+  font-size: 12px;
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PreSelect</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body class="popup">
+    <header class="popup__header">
+      <div class="popup__site">
+        <h1 id="site-host">This page</h1>
+        <p class="muted mono" id="site-account">Not a Google page</p>
+      </div>
+      <label class="toggle popup__watch" id="watch-wrap" hidden>
+        <input type="checkbox" id="watch-site" />
+        <span class="visually-hidden">Ask before opening this site</span>
+      </label>
+    </header>
+
+    <p class="popup__section-title" id="switch-title" hidden>Reopen this page as</p>
+    <div id="account-list" class="popup__list"></div>
+
+    <p class="popup__note muted" id="note"></p>
+
+    <footer class="popup__footer">
+      <button class="button button--quiet" id="refresh" type="button">Refresh</button>
+      <button class="button button--quiet" id="settings" type="button">Settings</button>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

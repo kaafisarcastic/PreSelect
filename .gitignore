@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+
+# Build output, if a packaging step is ever added
+*.zip
+dist/
