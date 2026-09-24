@@ -5,7 +5,8 @@
   "description": "Asks which Google account to use before a Google link opens, then routes it to that account. Free while in beta.",
   "minimum_chrome_version": "116",
 
-  "permissions": ["storage", "tabs", "webNavigation", "declarativeNetRequestWithHostAccess"],
+  "permissions": ["storage",
+    "contextMenus", "tabs", "webNavigation", "declarativeNetRequestWithHostAccess"],
   "host_permissions": ["https://accounts.google.com/*"],
 
   "background": {

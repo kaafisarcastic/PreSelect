@@ -14,6 +14,7 @@ import { matchNavigation } from "../common/domains.js";
 import { loadState, saveState, mergeDiscoveredAccounts, onStateChanged } from "../common/storage.js";
 import { buildNavigationUrl } from "../common/url.js";
 import { discoverSignedInAccounts } from "./accounts.js";
+import { buildContextMenu, handleContextMenuClick } from "./context-menu.js";
 import { ACTION, decide, chooserUrlFor, scopeOf } from "./interceptor.js";
 import {
   grantPass,
@@ -42,6 +43,9 @@ async function getState() {
 
 onStateChanged((next) => {
   cachedState = next;
+  // The menu lists accounts and is scoped to the enabled sites, so both can
+  // change underneath it.
+  buildContextMenu(next).catch(() => {});
 });
 
 /* ------------------------------------------------------------ account refresh */
@@ -215,11 +219,17 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   await refreshAccounts({ force: true }).catch(() => {});
+  await buildContextMenu(await getState()).catch(() => {});
   // A first run with no accounts configured would silently do nothing, so send
   // the user straight to the place where they can set it up.
   if (reason === "install") chrome.runtime.openOptionsPage();
 });
 
-chrome.runtime.onStartup.addListener(() => {
+chrome.runtime.onStartup.addListener(async () => {
   refreshAccounts({ force: true }).catch(() => {});
+  await buildContextMenu(await getState()).catch(() => {});
+});
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  await handleContextMenuClick({ info, tab, state: await getState(), grantPass });
 });
