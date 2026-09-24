@@ -35,6 +35,10 @@ const NEVER_INTERCEPT = [
  * answer away. Resolving first means the account lands on the URL that survives.
  */
 const HOST_ALIASES = {
+  // gmail.com only redirects while the URL is bare. Append anything and it 404s
+  // outright, so the account has to be applied to mail.google.com instead.
+  "gmail.com": "https://mail.google.com/mail/",
+  "www.gmail.com": "https://mail.google.com/mail/",
   "sheets.google.com": "https://docs.google.com/spreadsheets",
   "slides.google.com": "https://docs.google.com/presentation",
   "forms.google.com": "https://docs.google.com/forms",
