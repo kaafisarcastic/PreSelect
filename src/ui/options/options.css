@@ -231,3 +231,53 @@
 .status[data-tone="error"] {
   color: var(--danger);
 }
+
+/* Keyboard shortcuts: a read-only map of key to account. */
+.shortcuts {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.shortcuts__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shortcuts__title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.shortcuts__list {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.shortcuts__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.shortcuts__key {
+  flex: 0 0 auto;
+  min-width: 58px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface-alt);
+  font: 12px/1.6 var(--mono);
+  text-align: center;
+}
+
+.shortcuts__email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

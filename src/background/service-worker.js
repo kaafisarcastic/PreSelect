@@ -14,7 +14,7 @@ import { matchNavigation } from "../common/domains.js";
 import { loadState, saveState, mergeDiscoveredAccounts, onStateChanged } from "../common/storage.js";
 import { buildNavigationUrl } from "../common/url.js";
 import { discoverSignedInAccounts } from "./accounts.js";
-import { buildContextMenu, handleContextMenuClick } from "./context-menu.js";
+import { buildContextMenu, resolveMenuClick } from "./context-menu.js";
 import { ACTION, decide, chooserUrlFor, scopeOf } from "./interceptor.js";
 import {
   grantPass,
@@ -162,13 +162,23 @@ const handlers = {
   },
 
   /** The chooser tells us which account won; we rewrite and continue. */
-  async [MSG.RESOLVE_NAVIGATION]({ tabId, url, accountId, remember }) {
+  async [MSG.RESOLVE_NAVIGATION]({ tabId, url, accountId, remember, newTab = false }) {
     const state = await getState();
     const account = state.accounts.find((candidate) => candidate.id === accountId);
     if (!account) throw new Error("That account is no longer configured.");
 
     const target = buildNavigationUrl(url, account);
     const host = new URL(url).hostname.toLowerCase();
+
+    // Cmd+click in the popup: leave the page where it is and open beside it.
+    if (newTab) {
+      const opened = await chrome.tabs.create({ url: "about:blank", openerTabId: tabId });
+      await rememberTabScope(opened.id, scopeOf(url, matchNavigation(url, state), state), account.id);
+      await noteRoute(opened.id);
+      await grantPass(opened.id, target);
+      await navigate(opened.id, target);
+      return { target };
+    }
 
     if (remember === "site") {
       // A persistent rule belongs to the whole site, not one app inside it: it is
@@ -230,6 +240,81 @@ chrome.runtime.onStartup.addListener(async () => {
   await buildContextMenu(await getState()).catch(() => {});
 });
 
+/**
+ * Open `url` under `account`, either replacing the current tab or beside it.
+ *
+ * Shared by the right-click menu and the keyboard shortcuts so the two cannot
+ * behave differently. The pass has to exist before a tab navigates, which is why
+ * a new tab is opened blank and pointed at the target afterwards.
+ */
+async function openAs({ url, account, tab, state, newTab }) {
+  const match = matchNavigation(url, state);
+  const destination = match.url ?? url;
+  const target = buildNavigationUrl(destination, account);
+
+  let tabId = tab?.id;
+  if (newTab || tabId == null) {
+    const opened = await chrome.tabs.create({
+      url: "about:blank",
+      index: tab ? tab.index + 1 : undefined,
+      openerTabId: tab?.id,
+    });
+    tabId = opened.id;
+  }
+
+  // The user picked deliberately, so the tab should stop asking for this app.
+  if (match.intercept) {
+    await rememberTabScope(tabId, scopeOf(destination, match, state), account.id);
+  }
+  await noteRoute(tabId);
+  await grantPass(tabId, target);
+  await navigate(tabId, target);
+}
+
+/** The accounts the shortcuts and the popup count through, in the same order. */
+function shortcutAccounts(state) {
+  return state.behavior.showSignedOutAccounts
+    ? state.accounts
+    : state.accounts.filter((account) => account.signedIn);
+}
+
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  await handleContextMenuClick({ info, tab, state: await getState(), grantPass });
+  const state = await getState();
+  const chosen = resolveMenuClick(info, state);
+  // Right-clicking a link means "send this somewhere" — you are staying put.
+  if (chosen) await openAs({ ...chosen, tab, state, newTab: true });
+});
+
+/**
+ * Keyboard shortcuts, in two families:
+ *
+ *   switch-account-N   replace this page      (Alt+N by default)
+ *   open-account-N     open it in a new tab   (unbound; Chrome allows only four
+ *                                              suggested keys and the switching
+ *                                              family takes them)
+ *
+ * The number counts down the same list the chooser and popup show, so the digit
+ * beside an account in the prompt is the digit on the keyboard.
+ *
+ * Nothing happens away from a Google surface. A shortcut that silently rewrote
+ * an unrelated page would be worse than one that does nothing.
+ */
+chrome.commands.onCommand.addListener(async (command) => {
+  const match = /^(switch|open)-account-(\d+)$/.exec(command);
+  if (!match) return;
+  const [, kind, digits] = match;
+
+  const state = await getState();
+  const account = shortcutAccounts(state)[Number(digits) - 1];
+  if (!account) return;
+
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.url) return;
+
+  // `entry` is present for a known surface even when its toggle is off, and the
+  // user pressing a key is explicit enough to act on either way.
+  const navigation = matchNavigation(tab.url, state);
+  if (!navigation.intercept && !navigation.entry) return;
+
+  await openAs({ url: tab.url, account, tab, state, newTab: kind === "open" });
 });

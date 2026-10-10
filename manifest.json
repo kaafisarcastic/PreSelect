@@ -1,19 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "Google Account Switcher – PreSelect",
+  "name": "Google Account Switcher \u2013 PreSelect",
   "version": "1.0.0",
   "description": "Asks which Google account to use before a Google link opens, then routes it to that account. Free while in beta.",
   "minimum_chrome_version": "116",
-
-  "permissions": ["storage",
-    "contextMenus", "tabs", "webNavigation", "declarativeNetRequestWithHostAccess"],
-  "host_permissions": ["https://accounts.google.com/*"],
-
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "webNavigation",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://accounts.google.com/*"
+  ],
   "background": {
     "service_worker": "src/background/service-worker.js",
     "type": "module"
   },
-
   "action": {
     "default_title": "PreSelect",
     "default_popup": "src/ui/popup/popup.html",
@@ -24,13 +28,49 @@
       "128": "assets/icons/icon-128.png"
     }
   },
-
   "options_page": "src/ui/options/options.html",
-
   "icons": {
     "16": "assets/icons/icon-16.png",
     "32": "assets/icons/icon-32.png",
     "48": "assets/icons/icon-48.png",
     "128": "assets/icons/icon-128.png"
+  },
+  "commands": {
+    "switch-account-1": {
+      "suggested_key": {
+        "default": "Alt+1"
+      },
+      "description": "Switch this page to account 1"
+    },
+    "switch-account-2": {
+      "suggested_key": {
+        "default": "Alt+2"
+      },
+      "description": "Switch this page to account 2"
+    },
+    "switch-account-3": {
+      "suggested_key": {
+        "default": "Alt+3"
+      },
+      "description": "Switch this page to account 3"
+    },
+    "switch-account-4": {
+      "suggested_key": {
+        "default": "Alt+4"
+      },
+      "description": "Switch this page to account 4"
+    },
+    "open-account-1": {
+      "description": "Open this page in a new tab as account 1"
+    },
+    "open-account-2": {
+      "description": "Open this page in a new tab as account 2"
+    },
+    "open-account-3": {
+      "description": "Open this page in a new tab as account 3"
+    },
+    "open-account-4": {
+      "description": "Open this page in a new tab as account 4"
+    }
   }
 }

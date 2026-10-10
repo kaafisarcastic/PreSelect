@@ -43,6 +43,18 @@
           <button class="button button--primary" type="submit">Add</button>
         </form>
         <p class="status" id="account-status" role="status"></p>
+
+        <div class="shortcuts" id="shortcuts" hidden>
+          <div class="shortcuts__head">
+            <p class="shortcuts__title">Keyboard shortcuts</p>
+            <button class="button button--quiet" id="edit-shortcuts" type="button">Change keys</button>
+          </div>
+          <div class="shortcuts__list" id="shortcut-list"></div>
+          <p class="faint field__hint">
+            Press one on any Google page to reopen it as that account. The order follows the list
+            above, so reordering your accounts changes what each key does.
+          </p>
+        </div>
       </section>
 
       <!-- Default behaviour -->
@@ -94,6 +106,7 @@
               </span>
             </span>
           </label>
+
 
           <label class="toggle">
             <input type="checkbox" id="behavior-autoDiscover" />

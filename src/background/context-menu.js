@@ -9,8 +9,7 @@
  * read the page.
  */
 
-import { DOMAIN_CATALOG, isEntryEnabled, matchNavigation } from "../common/domains.js";
-import { buildNavigationUrl } from "../common/url.js";
+import { DOMAIN_CATALOG, isEntryEnabled } from "../common/domains.js";
 
 const ROOT_ID = "preselect-open-as";
 const ITEM_PREFIX = "preselect-account:";
@@ -52,8 +51,9 @@ export async function buildContextMenu(state) {
     // Not "Open link as": Chrome uses that title itself for opening a link in
     // another browser profile. Naming ours after accounts keeps the two apart.
     title: "Open with Google account",
-    contexts: ["link"],
+    contexts: ["link", "page"],
     targetUrlPatterns,
+    documentUrlPatterns: targetUrlPatterns,
   });
 
   for (const account of accounts) {
@@ -62,36 +62,25 @@ export async function buildContextMenu(state) {
       parentId: ROOT_ID,
       // The label alone is ambiguous once someone has two work accounts.
       title: account.label === account.email ? account.email : `${account.label} · ${account.email}`,
-      contexts: ["link"],
+      contexts: ["link", "page"],
       targetUrlPatterns,
+      documentUrlPatterns: targetUrlPatterns,
     });
   }
 }
 
 /**
- * Open the clicked link under the chosen account.
+ * Which account and link a menu click meant, or null if the click was not ours.
  *
- * `grantPass` is what stops our own interceptor asking about a tab the user has
- * just answered for. It has to be in place before the tab navigates, so the tab
- * is opened blank and pointed at the target afterwards.
+ * Opening is left to the caller so that this and the keyboard shortcuts go
+ * through one path and cannot drift apart.
  */
-export async function handleContextMenuClick({ info, tab, state, grantPass }) {
-  if (!String(info.menuItemId).startsWith(ITEM_PREFIX)) return;
+export function resolveMenuClick(info, state) {
+  if (!String(info.menuItemId).startsWith(ITEM_PREFIX)) return null;
+  // A click on the page itself carries no linkUrl, so use the page instead.
+  const url = info.linkUrl ?? info.pageUrl;
+  if (!url) return null;
 
   const account = state.accounts.find((candidate) => ITEM_PREFIX + candidate.id === info.menuItemId);
-  if (!account || !info.linkUrl) return;
-
-  // Resolve signpost hosts first, so gmail.com becomes a URL that accepts an
-  // account instead of one that 404s.
-  const match = matchNavigation(info.linkUrl, state);
-  const target = buildNavigationUrl(match.url ?? info.linkUrl, account);
-
-  const opened = await chrome.tabs.create({
-    url: "about:blank",
-    index: tab ? tab.index + 1 : undefined,
-    openerTabId: tab?.id,
-  });
-
-  await grantPass(opened.id, target);
-  await chrome.tabs.update(opened.id, { url: target });
+  return account ? { account, url, fromLink: Boolean(info.linkUrl) } : null;
 }

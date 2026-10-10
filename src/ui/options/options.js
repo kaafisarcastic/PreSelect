@@ -183,6 +183,38 @@ function drawTabScope() {
   qs("#tab-scope-hint").textContent = TAB_SCOPE_HINTS[select.value] ?? "";
 }
 
+/**
+ * Show which key reaches which account.
+ *
+ * The keys are bound to positions, not to accounts, so this is read from the
+ * live list rather than stored anywhere. Chrome owns the actual bindings, which
+ * is why the user is sent to its own shortcuts page to change them.
+ */
+async function drawShortcuts() {
+  const wrap = qs("#shortcuts");
+  const visible = state.behavior.showSignedOutAccounts
+    ? state.accounts
+    : state.accounts.filter((account) => account.signedIn);
+
+  const commands = await chrome.commands.getAll();
+  const bound = new Map(commands.map((command) => [command.name, command.shortcut]));
+
+  const rows = visible.slice(0, 4).flatMap((account, position) => {
+    const row = (command, verb) => {
+      const key = bound.get(`${command}-account-${position + 1}`);
+      return el("div", { class: "shortcuts__row" }, [
+        el("kbd", { class: "shortcuts__key", text: key || "unassigned" }),
+        el("span", { class: "shortcuts__name", text: `${verb} ${account.label}` }),
+        el("span", { class: "shortcuts__email muted", text: account.email }),
+      ]);
+    };
+    return [row("switch", "Switch to"), row("open", "New tab as")];
+  });
+
+  wrap.hidden = rows.length === 0;
+  render(qs("#shortcut-list"), rows);
+}
+
 function drawBehavior() {
   // Only the boolean settings are rendered as switches; anything else in the
   // behaviour bag has its own control and is drawn below.
@@ -195,6 +227,7 @@ function drawBehavior() {
 
 function drawAll() {
   drawAccounts();
+  drawShortcuts().catch(() => {});
   drawDefaultAccount();
   drawDomains();
   // Other hosts UI (2 of 3): hidden for now, see options.html.
@@ -244,6 +277,11 @@ function bindEvents() {
   qs("#default-account").addEventListener("change", (event) => {
     state.defaultAccountId = event.target.value || null;
     commit(() => {});
+  });
+
+  // Chrome owns the bindings, so editing them happens on its own page.
+  qs("#edit-shortcuts").addEventListener("click", () => {
+    chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
   });
 
   qs("#tab-scope").addEventListener("change", (event) => {

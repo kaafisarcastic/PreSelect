@@ -23,7 +23,8 @@ function accountButton(account, current) {
       class: "popup__account",
       type: "button",
       "aria-current": current ? "true" : null,
-      onclick: () => switchTo(account),
+      // Same convention as a link: click goes here, Cmd/Ctrl+click opens a tab.
+      onclick: (event) => switchTo(account, event.metaKey || event.ctrlKey),
     },
     [
       el("span", {
@@ -41,8 +42,14 @@ function accountButton(account, current) {
   );
 }
 
-async function switchTo(account) {
-  await resolveNavigation({ tabId: tab.id, url: tab.url, accountId: account.id, remember: "tab" });
+async function switchTo(account, newTab = false) {
+  await resolveNavigation({
+    tabId: tab.id,
+    url: tab.url,
+    accountId: account.id,
+    remember: "tab",
+    newTab,
+  });
   window.close();
 }
 
@@ -64,6 +71,10 @@ function draw() {
   const switchable = Boolean(host) && visible.length > 0;
   qs("#switch-title").hidden = !switchable;
   render(qs("#account-list"), switchable ? visible.map((a) => accountButton(a, a.id === current?.id)) : []);
+
+  qs("#modifier-hint").hidden = !switchable;
+  qs("#modifier-hint").textContent =
+    `${navigator.platform.startsWith("Mac") ? "Cmd" : "Ctrl"}+click to open in a new tab instead.`;
 
   const note = qs("#note");
   if (!host) note.textContent = "PreSelect only steps in on Google pages you have switched on.";
